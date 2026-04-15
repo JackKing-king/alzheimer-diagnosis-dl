@@ -56,6 +56,9 @@ Thumbs.db
 .ipynb_checkpoints/
 *.ipynb
 
+# 但允许提交 Colab notebook
+!colab_train.ipynb
+
 # Logs
 *.log
 logs/
