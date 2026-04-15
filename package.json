@@ -1,0 +1,28 @@
+{
+  "name": "alzheimer-deep-learning",
+  "version": "1.0.0",
+  "description": "基于深度学习的阿尔茨海默病诊断项目",
+  "main": "training/train_cnn.py",
+  "scripts": {
+    "train:cnn": "python training/train_cnn.py --data_dir data --output_dir results/cnn",
+    "train:resnet": "python training/train_resnet.py --data_dir data --output_dir results/resnet",
+    "train:efficientnet": "python training/train_efficientnet.py --data_dir data --output_dir results/efficientnet",
+    "train:vit": "python training/train_vit.py --data_dir data --output_dir results/vit",
+    "train:all": "npm run train:cnn && npm run train:resnet && npm run train:efficientnet && npm run train:vit",
+    "evaluate": "python evaluation/evaluate.py",
+    "compare": "python evaluation/compare_models.py",
+    "preprocess:organize": "python utils/preprocessing.py --task organize --source_dir data/raw --output_dir data",
+    "preprocess:metadata": "python utils/preprocessing.py --task metadata --data_dir data --output_file data/metadata.csv"
+  },
+  "keywords": [
+    "deep-learning",
+    "alzheimer",
+    "cnn",
+    "resnet",
+    "efficientnet",
+    "vision-transformer",
+    "medical-imaging"
+  ],
+  "author": "",
+  "license": "MIT"
+}
