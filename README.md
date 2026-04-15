@@ -92,6 +92,61 @@
 - AUC-ROC
 - 混淆矩阵
 
+## GitHub Actions 自动训练
+
+本项目配置了 GitHub Actions 自动化工作流，支持云端自动训练：
+
+### 触发方式
+
+1. **手动触发**: 进入仓库的 Actions 页面，选择 workflow 后点击 "Run workflow"
+2. **定时触发**: 每周日凌晨 2 点自动运行
+
+### 可用的 Workflows
+
+#### 1. Train Alzheimer Diagnosis Models
+训练深度学习模型，支持：
+- **CNN** (ResNet50)
+- **ResNet** (ResNet101)
+- **EfficientNet** (EfficientNet-B0)
+- **ViT** (Vision Transformer)
+- **All** (同时训练所有模型)
+
+参数配置：
+- 训练轮数 (epochs)
+- 批次大小 (batch_size)
+
+训练完成后自动上传：
+- 模型检查点 (checkpoints)
+- 训练日志 (logs)
+- 训练历史 (history.json)
+
+#### 2. Data Preparation
+数据预处理 workflow：
+- 下载数据集
+- 数据分割 (train/val/test)
+- 数据缓存
+
+#### 3. Model Evaluation
+模型评估 workflow：
+- 加载训练好的模型
+- 在测试集上评估
+- 生成评估报告
+
+### 使用步骤
+
+1. 进入仓库的 **Actions** 标签页
+2. 选择要运行的 workflow
+3. 点击 **Run workflow**
+4. 选择模型类型和参数
+5. 点击 **Run workflow** 开始训练
+6. 训练完成后在 **Artifacts** 中下载结果
+
+### 注意事项
+
+- GitHub Actions 免费版有 2000 分钟/月的限制
+- 训练使用 CPU 运行，速度较慢
+- 建议上传预处理好的数据到 GitHub Release 或外部存储
+
 ## 参考文献
 1. Alzheimer's Disease Neuroimaging Initiative (ADNI)
 2. OASIS Brains Project
