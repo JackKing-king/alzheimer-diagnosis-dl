@@ -1,0 +1,67 @@
+name: Deploy Data to GitHub Pages
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        
+      - name: Prepare data files
+        run: |
+          mkdir -p _site
+          # 复制数据文件到发布目录
+          cp -r memory _site/ 2>/dev/null || true
+          cp *.md _site/ 2>/dev/null || true
+          cp *.py _site/ 2>/dev/null || true
+          # 创建索引页
+          cat > _site/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>Workspace Data</title>
+            <style>
+              body { font-family: system-ui, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
+              h1 { color: #333; }
+              ul { line-height: 2; }
+              a { color: #0066cc; text-decoration: none; }
+              a:hover { text-decoration: underline; }
+            </style>
+          </head>
+          <body>
+            <h1>📁 Workspace Data</h1>
+            <p>Generated at: <span id="time"></span></p>
+            <script>document.getElementById('time').textContent = new Date().toLocaleString();</script>
+          </body>
+          </html>
+          EOF
+          
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
