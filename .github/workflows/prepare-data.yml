@@ -24,6 +24,13 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install kaggle
+        
+    - name: Setup Kaggle credentials
+      run: |
+        mkdir -p ~/.kaggle
+        echo '{"username":"${{ secrets.KAGGLE_USERNAME }}","key":"${{ secrets.KAGGLE_KEY }}"}' > ~/.kaggle/kaggle.json
+        chmod 600 ~/.kaggle/kaggle.json
         
     - name: Create data directories
       run: |
@@ -36,18 +43,15 @@ jobs:
         path: data/
         key: alzheimer-data-${{ hashFiles('download_data.py') }}
         
-    - name: Download dataset
+    - name: Download dataset from Kaggle
       if: steps.check-data.outputs.cache-hit != 'true'
       run: |
-        # 这里可以添加从 Google Drive、Kaggle 或 S3 下载数据的逻辑
-        # 例如使用 gdown 下载 Google Drive 文件
-        # pip install gdown
-        # gdown --id YOUR_FILE_ID -O data/raw/dataset.zip
-        # unzip data/raw/dataset.zip -d data/raw/
-        echo "请配置数据下载逻辑"
-        echo "可以从以下源下载："
-        echo "1. Kaggle: https://www.kaggle.com/datasets/tourist55/alzheimers-dataset-4-class-of-images"
-        echo "2. 或上传数据到 GitHub Release/Google Drive/AWS S3"
+        echo "Downloading Alzheimer's dataset from Kaggle..."
+        kaggle datasets download -d tourist55/alzheimers-dataset-4-class-of-images -p data/raw/
+        echo "Extracting dataset..."
+        unzip -q data/raw/alzheimers-dataset-4-class-of-images.zip -d data/raw/
+        echo "Dataset downloaded and extracted successfully!"
+        ls -la data/raw/
         
     - name: Preprocess data
       if: steps.check-data.outputs.cache-hit != 'true'
