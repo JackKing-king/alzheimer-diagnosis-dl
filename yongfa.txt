@@ -1,0 +1,31 @@
+D:/基于深度学习的阿尔茨海默病诊断/
+├── README.md                    # 项目说明文档
+├── requirements.txt             # Python依赖
+├── package.json                 # npm脚本配置
+├── download_data.py             # 数据下载指南
+├── data/                        # 数据目录
+│   ├── raw/                    # 原始数据
+│   ├── processed/              # 预处理数据
+│   └── splits/                 # 数据集划分
+├── models/                      # 四种深度学习模型
+│   ├── cnn.py                  # CNN模型 (ResNet50/VGG16)
+│   ├── resnet.py               # ResNet模型 (18/34/50/101/152)
+│   ├── efficientnet.py         # EfficientNet模型 (B0-B4)
+│   └── vit.py                  # Vision Transformer模型
+├── training/                    # 训练脚本
+│   ├── train_cnn.py
+│   ├── train_resnet.py
+│   ├── train_efficientnet.py
+│   └── train_vit.py
+├── evaluation/                  # 评估脚本
+│   ├── evaluate.py             # 单模型评估
+│   └── compare_models.py       # 四模型对比
+├── utils/                       # 工具函数
+│   ├── data_loader.py          # 数据加载器
+│   ├── metrics.py              # 评估指标
+│   └── preprocessing.py        # 数据预处理
+├── results/                     # 实验结果
+│   ├── checkpoints/            # 模型检查点
+│   ├── logs/                   # 训练日志
+│   └── figures/                # 可视化图表
+└── notebooks/                   # Jupyter notebooks
